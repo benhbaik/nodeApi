@@ -1,90 +1,102 @@
 module.exports = function(app, express) {
-
     var apiRouter = express.Router();
-    var User = require('../models/userModel.js');
 
-    // app.use(function(req, res, next) {
-    //     console.log('/api middleware');
-    //     next();
-    // });
-
-    apiRouter.route('/users')
+    apiRouter.route('/contact')
         .post(function(req, res) {
-
-            var user = new User();
-
-            user.username = req.body.username;
-            user.password = req.body.password;
-
-            user.save(function(err) {
-                if (err) {
-                    if (err.code == 11000) {
-                        return res.json({
-                            success: false,
-                            message: 'A user with that username already exists.'
-                        });
-                    } else {
-                        return res.send(err);
+            return res.status(201).json({
+                "content": {
+                  "addresses": [
+                    {
+                      "address1": "999 18th St.",
+                      "address2": "St. 600",
+                      "city": "Denver",
+                      "contactId": "string",
+                      "countryCode": "US",
+                      "createdDate": "2018-05-18T18:38:28.563Z",
+                      "id": "string",
+                      "postalCode": "80206",
+                      "preferred": false,
+                      "stateProvince": "CO",
+                      "type": "string",
+                      "updatedDate": "2018-05-18T18:38:28.563Z"
                     }
-                }
-                res.json({
-                    message: 'User created!'
-                });
-            });
-
-        })
-        .get(function(req, res) {
-
-            User.find(function(err, users) {
-                if (err) res.status(400).json(err);
-                else if (users) res.status(201).json(users);
-            });
-
-        })
-        // .put(function(req, res) {
-        //
-        // })
-        // .delete(function(req, res) {
-        //
-        // });
-
-
-    apiRouter.route('/users/:id')
-        .get(function(req, res) {
-
-            User.find({
-                _id: req.params.id
-            }, function(err, user) {
-                if (err) res.status(400).json(err);
-                else if (user) res.status(201).json(user);
-            });
-
-        })
-        .put(function(req, res) {
-
-            User.findById(req.params.id, function(err, user) {
-                if (err) res.status(400).json(err);
-
-                if (req.body.username) user.username = req.body.username;
-                if (req.body.password) user.password = req.body.password;
-
-                 user.save(function(err) {
-                     if (err) res.status(400).json(err);
-                     res.status(201).json({message: 'User updated.'});
-                 });
-            });
-
-        })
-        .delete(function(req, res) {
-
-            User.findOneAndRemove({
-                _id: req.params.id
-            }, function(err) {
-                if (err) res.status(400).json(err);
-                 res.status(201).json({message: 'User deleted.'});
-            });
-
+                  ],
+                  "attributes": {
+                    "additionalProp1": "string",
+                    "additionalProp2": "string",
+                    "additionalProp3": "string"
+                  },
+                  "createdDate": "2018-05-18T18:38:28.563Z",
+                  "emails": [
+                    {
+                      "contactId": "string",
+                      "createdDate": "2018-05-18T18:38:28.563Z",
+                      "emailAddress": "jon.fishman@maine.gov",
+                      "id": "string",
+                      "preferred": false,
+                      "updatedDate": "2018-05-18T18:38:28.563Z"
+                    }
+                  ],
+                  "id": "string",
+                  "name1": "Jim Davis",
+                  "name2": "5th floor",
+                  "phoneNumbers": [
+                    {
+                      "contactId": "string",
+                      "countryCode": "1",
+                      "createdDate": "2018-05-18T18:38:28.563Z",
+                      "extension": "x5150",
+                      "id": "string",
+                      "phoneNumber": "303-555-1234",
+                      "preferred": false,
+                      "type": "string",
+                      "updatedDate": "2018-05-18T18:38:28.563Z"
+                    }
+                  ],
+                  "type": "Agency User",
+                  "updatedDate": "2018-05-18T18:38:28.563Z"
+                },
+                "error": {
+                  "message": "string",
+                  "status": 0
+                },
+                "requestId": "string"
+              });
         });
+
+        apiRouter.route('/todo')
+            .post(function(req, res) {
+                return res.status(201).json({
+                    "content": {
+                      "id": "string",
+                      "action": "string",
+                      "additionalDocumentIds": [
+                        "string"
+                      ],
+                      "assignedTo": "string",
+                      "bestTimeToBeReached": "string",
+                      "createdDate": "2018-05-18T18:52:02.453Z",
+                      "description": "string",
+                      "dueDate": "2018-05-18T18:52:02.453Z",
+                      "emailAddress": "string",
+                      "lobId": "string",
+                      "lobType": "string",
+                      "otherDetailsOrComments": "string",
+                      "phoneNumber": "string",
+                      "policyId": "string",
+                      "policyNumber": "string",
+                      "priority": "string",
+                      "status": "string",
+                      "type": "string",
+                      "updatedDate": "2018-05-18T18:52:02.453Z"
+                    },
+                    "error": {
+                      "message": "string",
+                      "status": 0
+                    },
+                    "requestId": "string"
+                  });
+            });
 
     return apiRouter;
 };
