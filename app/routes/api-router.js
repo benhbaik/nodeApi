@@ -3,7 +3,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
-            return res.status(201).json({
+            res.status(201).json({
                 "content": {
                   "addresses": [
                     {
@@ -66,7 +66,7 @@ module.exports = function(app, express) {
 
         apiRouter.route('/todo')
             .post(function(req, res) {
-                return res.status(201).json({
+                res.status(201).json({
                     "content": {
                       "id": "string",
                       "action": "string",
