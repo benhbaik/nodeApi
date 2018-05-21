@@ -63,7 +63,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
-          console.log(JSON.stringify(mock_contact));
+          console.log(typeof JSON.stringify(mock_contact));
           knex('contact').insert('data', JSON.stringify(mock_contact)).returning('*')
           .then(function(data) {
             console.log("successful insert");
