@@ -143,7 +143,7 @@ module.exports = function(app, express) {
               try {
                 output.push(JSON.parse(data[i].data));
               }
-              catch {
+              catch (e) {
                 console.log("failed to push ID " + data[i].id);
               }
             }
