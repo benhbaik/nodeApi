@@ -1,6 +1,37 @@
 module.exports = function(app, express) {
     var apiRouter = express.Router();
     var knex = require('../../db/knex');
+    var mock_todo = {
+        "content": {
+          "id": "string",
+          "action": "string",
+          "additionalDocumentIds": [
+            "string"
+          ],
+          "assignedTo": "string",
+          "bestTimeToBeReached": "string",
+          "createdDate": "2018-05-18T18:52:02.453Z",
+          "description": "string",
+          "dueDate": "2018-05-18T18:52:02.453Z",
+          "emailAddress": "string",
+          "lobId": "string",
+          "lobType": "string",
+          "otherDetailsOrComments": "string",
+          "phoneNumber": "string",
+          "policyId": "string",
+          "policyNumber": "string",
+          "priority": "string",
+          "status": "string",
+          "type": "string",
+          "updatedDate": "2018-05-18T18:52:02.453Z"
+        },
+        "error": {
+          "message": "string",
+          "status": 0
+        },
+        "requestId": "string"
+      };
+
     var mock_contact = {
       "content": {
         "addresses": [
@@ -105,38 +136,48 @@ module.exports = function(app, express) {
           });
         });
 
+        apiRouter.route('/todo/:id')
+          .get(function(req, res) {
+            knex('todo').where('id', req.params.id)
+            .then(function(data) {
+              res.status(201).json(JSON.parse(data[0].data));
+            })
+            .catch(function(err) {
+              res.send(err);
+            });
+          });
+
         apiRouter.route('/todo')
             .post(function(req, res) {
-                res.status(201).json({
-                    "content": {
-                      "id": "string",
-                      "action": "string",
-                      "additionalDocumentIds": [
-                        "string"
-                      ],
-                      "assignedTo": "string",
-                      "bestTimeToBeReached": "string",
-                      "createdDate": "2018-05-18T18:52:02.453Z",
-                      "description": "string",
-                      "dueDate": "2018-05-18T18:52:02.453Z",
-                      "emailAddress": "string",
-                      "lobId": "string",
-                      "lobType": "string",
-                      "otherDetailsOrComments": "string",
-                      "phoneNumber": "string",
-                      "policyId": "string",
-                      "policyNumber": "string",
-                      "priority": "string",
-                      "status": "string",
-                      "type": "string",
-                      "updatedDate": "2018-05-18T18:52:02.453Z"
-                    },
-                    "error": {
-                      "message": "string",
-                      "status": 0
-                    },
-                    "requestId": "string"
-                  });
+              var mock_todo_string = req.body || JSON.stringify(mock_todo);
+              knex('todo').insert({data: mock_todo_string}).returning('*')
+              .then(function(data) {
+                console.log(data);
+                res.status(201).json(
+                  JSON.parse(data[0].data)
+                );
+              })
+              .catch(function(err) {
+                res.send(err);
+              });
+            })
+            .get(function(req, res) {
+              knex('todo')
+              .then(function(data) {
+                var output = [];
+                for (var i = 0; i < data.length; i++) {
+                  try {
+                    output.push(JSON.parse(data[i].data));
+                  }
+                  catch (e) {
+                    console.log("failed to push ID " + data[i].id);
+                  }
+                }
+                res.status(201).json(output);
+              })
+              .catch(function(err) {
+                res.send(err);
+              });
             });
 
     return apiRouter;
