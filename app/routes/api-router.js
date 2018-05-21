@@ -63,7 +63,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
-          knex('contact').insert('data', mock_contact).returning('*')
+          knex('contact').insert('data', mock_contact.toString()).returning('*')
           .then(function(data) {
             res.status(201).json(
               data
