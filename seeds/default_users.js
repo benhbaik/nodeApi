@@ -5,6 +5,7 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('contact').insert([
-        {id: 1, data: 'This is some default data'}
+        {id: 1, data: 'Have some seed data!'}
+      ]);
     });
 };
