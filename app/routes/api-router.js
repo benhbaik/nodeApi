@@ -129,7 +129,7 @@ module.exports = function(app, express) {
         .get(function(req, res) {
           knex('contact')
           .then(function(data) {
-            res.status(201).json(data[0]);
+            res.status(201).json(data);
           })
           .catch(function(err) {
             res.send(err);
