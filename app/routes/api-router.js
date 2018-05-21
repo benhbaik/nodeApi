@@ -138,7 +138,16 @@ module.exports = function(app, express) {
         .get(function(req, res) {
           knex('contact')
           .then(function(data) {
-            res.status(201).json(data);
+            var output = [];
+            for (var i = 0; i < data.length; i++) {
+              try {
+                output.push(JSON.parse(data[i].data));
+              }
+              catch {
+                console.log("failed to push ID " + data[i].id);
+              }
+            }
+            res.status(201).json(output);
           })
           .catch(function(err) {
             res.send(err);
