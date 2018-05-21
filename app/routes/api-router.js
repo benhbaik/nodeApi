@@ -1,7 +1,7 @@
 module.exports = function(app, express) {
     var apiRouter = express.Router();
     var knex = require('../../db/knex');
-    var mock_contact = require('contact_data');
+    var mock_contact = require('/contact_data');
 
     apiRouter.route('/contact')
         .post(function(req, res) {
