@@ -77,7 +77,7 @@ module.exports = function(app, express) {
           .then(function(data) {
             console.log("successful insert");
             res.status(201).json(
-              data
+              JSON.parse(data[0])
               // {
               //   "content": {
               //     "addresses": [
