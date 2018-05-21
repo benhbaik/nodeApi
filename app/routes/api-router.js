@@ -63,8 +63,11 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
+          console.log(String(mock_contact));
+          console.log(mock_contact.toString());
           knex('contact').insert('data', mock_contact.toString()).returning('*')
           .then(function(data) {
+            console.log("successful insert");
             res.status(201).json(
               data
               // {
