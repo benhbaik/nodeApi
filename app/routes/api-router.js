@@ -61,6 +61,14 @@ module.exports = function(app, express) {
       "requestId": "string"
     };
 
+    apiRouter.route('/contact/:id')
+      .get(function(req, res) {
+        knex('contact').where('id', req.params.id)
+        .then(function(data) {
+          res.status(201).json(JSON.parse(data[0].data));
+        })
+      })
+
     apiRouter.route('/contact')
         .post(function(req, res) {
           var mock_contact_string = JSON.stringify(mock_contact);
