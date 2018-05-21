@@ -79,7 +79,7 @@ module.exports = function(app, express) {
           .then(function(data) {
             console.log(data);
             res.status(201).json(
-              data[0]
+              JSON.parse(data[0].data);
             );
           })
           .catch(function(err) {
