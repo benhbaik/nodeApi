@@ -71,8 +71,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
-          var mock_contact_string = JSON.stringify(mock_contact);
-          console.log(typeof JSON.stringify(mock_contact), JSON.stringify(mock_contact).length);
+          var mock_contact_string = req.body || JSON.stringify(mock_contact);
           knex('contact').insert({data: mock_contact_string}).returning('*')
           .then(function(data) {
             console.log("successful insert");
