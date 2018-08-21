@@ -85,6 +85,7 @@ module.exports = function(app, express) {
 
         apiRouter.route('/todo')
             .post(function(req, res) {
+              console.log("LOOK AT REQUEST HERE!!!, " +req);
               var mock_todo_string = req.body || JSON.stringify(mock_todo);
               knex('todo').insert({data: mock_todo_string}).returning('*')
               .then(function(data) {
