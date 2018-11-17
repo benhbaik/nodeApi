@@ -117,12 +117,36 @@ module.exports = function(app, express) {
             });
 
         apiRouter.route('/message')
-            .post(function(req, res) {
-              var message = req.body;
-              console.log("<----------Message recieved.---------->")
-              console.log(req.body);
-              res.send(req.body);
+          .post(function(req, res) {
+            knex('message').insert({data: req.body}).returning('*')
+            .then(function(data) {
+              console.log(data);
+              res.status(201).json(
+                JSON.parse(data[0].data)
+              );
+            })
+            .catch(function(err) {
+              res.send(err);
             });
+          })
+          .get(function(req, res) {
+            knex('message')
+            .then(function(data) {
+              var output = [];
+              for (var i = 0; i < data.length; i++) {
+                try {
+                  output.push(JSON.parse(data[i].data));
+                }
+                catch (e) {
+                  console.log("failed to push ID " + data[i].id);
+                }
+              }
+              res.status(201).json(output);
+            })
+            .catch(function(err) {
+              res.send(err);
+            });
+          });
 
     return apiRouter;
 };
