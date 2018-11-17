@@ -119,6 +119,8 @@ module.exports = function(app, express) {
         apiRouter.route('/message')
             .post(function(req, res) {
               var message = req.body;
+              console.log("<----------Message recieved.---------->")
+              console.log(req.body);
               res.send(req.body);
             });
 
