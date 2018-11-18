@@ -18,3 +18,4 @@ app.use(function(req, res, next) {
 app.use('/api', apiRoutes);
 
 app.listen(port);
+console.log("Listening on port 3000.")
