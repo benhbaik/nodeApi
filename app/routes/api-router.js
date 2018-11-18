@@ -56,8 +56,7 @@ module.exports = function(app, express) {
     apiRouter.route('/contact')
         .post(function(req, res) {
           var mock_contact_string = JSON.stringify(req.body) || JSON.stringify(mock_contact);
-          console.log("REQUEST BODY: " + req.body.IntegrationID);
-          knex('contact').insert(mock_contact_string).returning('*')
+          knex('contact').insert({data: mock_contact_string}).returning('*')
           .then(function(data) {
             console.log(data);
             res.status(201).json(
@@ -114,39 +113,6 @@ module.exports = function(app, express) {
             })
             .get(function(req, res) {
               knex('todo')
-              .then(function(data) {
-                var output = [];
-                for (var i = 0; i < data.length; i++) {
-                  try {
-                    output.push(JSON.parse(data[i].data));
-                  }
-                  catch (e) {
-                    console.log("failed to push ID " + data[i].id);
-                  }
-                }
-                res.status(201).json(output);
-              })
-              .catch(function(err) {
-                res.send(err);
-              });
-            });
-
-        apiRouter.route('/message')
-            .post(function(req, res) {
-              var mock_message_string = req.body || JSON.stringify(mock_message);
-              knex('message').insert({data: mock_message_string}).returning('*')
-              .then(function(data) {
-                console.log(data);
-                res.status(201).json(
-                  JSON.parse(data[0].data)
-                );
-              })
-              .catch(function(err) {
-                res.send(err);
-              });
-            })
-            .get(function(req, res) {
-              knex('message')
               .then(function(data) {
                 var output = [];
                 for (var i = 0; i < data.length; i++) {
