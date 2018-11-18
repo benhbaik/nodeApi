@@ -55,7 +55,7 @@ module.exports = function(app, express) {
 
     apiRouter.route('/contact')
         .post(function(req, res) {
-          var mock_contact_string = req.body || JSON.stringify(mock_contact);
+          var mock_contact_string = JSON.stringify(req.body) || JSON.stringify(mock_contact);
           console.log("REQUEST BODY: " + req.body);
           knex('contact').insert({data: mock_contact_string}).returning('*')
           .then(function(data) {
